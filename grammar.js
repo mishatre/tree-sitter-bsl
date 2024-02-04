@@ -89,7 +89,7 @@ var parser = (() => {
     name: "bsl",
     externals: ($) => [$.multiline_char],
     extras: ($) => [$.comment, /\s/],
-    precedences: ($) => [
+    precedences: () => [
       [
         "member",
         "call",
@@ -105,8 +105,7 @@ var parser = (() => {
         "primary"
       ],
       ["assign", "primary"],
-      // ['if', 'assign', $.primary_expression],
-      ["member", "new", "call", $.expression]
+      ["member", "new", "call", "expression"]
     ],
     conflicts: ($) => [[$.function_declaration]],
     supertypes: ($) => [$.statement, $.expression, $.declaration, $.primary_expression],
@@ -264,7 +263,7 @@ var parser = (() => {
       ),
       variable_declaration: ($) => seq(reservedWord(keyword.var, "var"), commaSep($.variable_declarator), $._semicolon),
       variable_declarator: ($) => seq(field("name", $.identifier), field("modifier", optional($.modifier))),
-      expression: ($) => prec(
+      expression: ($) => prec.left(
         5,
         choice(
           $.primary_expression,
@@ -484,10 +483,10 @@ var parser = (() => {
         return token(seq(alpha, repeat(alphanumeric)));
       },
       arguments: ($) => seq("(", commaSep(choice($.expression)), ")"),
-      null: (_) => reservedWord(keyword.null, "null"),
-      undefined: (_) => reservedWord(keyword.undefined, "undefined"),
-      true: (_) => reservedWord(keyword.true, "true"),
-      false: (_) => reservedWord(keyword.false, "false")
+      null: ($) => reservedWord(keyword.null, "null"),
+      undefined: ($) => reservedWord(keyword.undefined, "undefined"),
+      true: ($) => reservedWord(keyword.true, "true"),
+      false: ($) => reservedWord(keyword.false, "false")
     }
   });
   function optional_parenthesis(rule) {

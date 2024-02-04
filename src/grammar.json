@@ -1029,7 +1029,7 @@
       ]
     },
     "expression": {
-      "type": "PREC",
+      "type": "PREC_LEFT",
       "value": 5,
       "content": {
         "type": "CHOICE",
@@ -3277,8 +3277,8 @@
         "value": "call"
       },
       {
-        "type": "SYMBOL",
-        "name": "expression"
+        "type": "STRING",
+        "value": "expression"
       }
     ]
   ],

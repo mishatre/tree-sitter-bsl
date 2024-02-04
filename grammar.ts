@@ -1,4 +1,4 @@
-import type { Rule } from './global';
+/// <reference path="./node_modules/tree-sitter-cli/dsl.d.ts" />
 
 const keyword = {
     region: 'Region|Область',
@@ -74,7 +74,7 @@ export default grammar({
 
     extras: ($) => [$.comment, /\s/],
 
-    precedences: ($) => [
+    precedences: () => [
         [
             'member',
             'call',
@@ -90,8 +90,7 @@ export default grammar({
             'primary',
         ],
         ['assign', 'primary'],
-        // ['if', 'assign', $.primary_expression],
-        ['member', 'new', 'call', $.expression],
+        ['member', 'new', 'call', 'expression'],
     ],
 
     conflicts: ($) => [[$.function_declaration]],
@@ -291,7 +290,7 @@ export default grammar({
             seq(field('name', $.identifier), field('modifier', optional($.modifier))),
 
         expression: ($) =>
-            prec(
+            prec.left(
                 5,
                 choice(
                     $.primary_expression,
@@ -565,22 +564,22 @@ export default grammar({
 
         arguments: ($) => seq('(', commaSep(choice($.expression)), ')'),
 
-        null: (_) => reservedWord(keyword.null, 'null'),
-        undefined: (_) => reservedWord(keyword.undefined, 'undefined'),
-        true: (_) => reservedWord(keyword.true, 'true'),
-        false: (_) => reservedWord(keyword.false, 'false'),
+        null: ($) => reservedWord(keyword.null, 'null'),
+        undefined: ($) => reservedWord(keyword.undefined, 'undefined'),
+        true: ($) => reservedWord(keyword.true, 'true'),
+        false: ($) => reservedWord(keyword.false, 'false'),
     },
 });
 
-function optional_parenthesis<K extends string>(rule: Rule<K>) {
-    return prec.right(choice<K>(rule, wrapped_in_parenthesis<K>(rule)));
+function optional_parenthesis(rule: Rule) {
+    return prec.right(choice(rule, wrapped_in_parenthesis(rule)));
 }
 
-function wrapped_in_parenthesis<K extends string>(rule?: Rule<K>) {
+function wrapped_in_parenthesis(rule?: Rule) {
     if (rule) {
-        return seq<K>('(', rule, ')');
+        return seq('(', rule, ')');
     }
-    return seq<K>('(', ')');
+    return seq('(', ')');
 }
 
 /**
@@ -590,8 +589,8 @@ function wrapped_in_parenthesis<K extends string>(rule?: Rule<K>) {
  *
  * @return {AliasRule}
  */
-function preprocessor<K extends string>(command: string | RegExp) {
-    return alias<K>(
+function preprocessor(command: string | RegExp) {
+    return alias(
         new RegExp(`#[ \t]*${typeof command === 'string' ? command : command.source}`),
         '#' + command,
     );
@@ -605,7 +604,7 @@ function preprocessor<K extends string>(command: string | RegExp) {
  * @return {ChoiceRule}
  *
  */
-function commaSep<K extends string>(rule: Rule<K>) {
+function commaSep(rule: Rule) {
     return optional(commaSep1(rule));
 }
 
@@ -617,7 +616,7 @@ function commaSep<K extends string>(rule: Rule<K>) {
  * @return {SeqRule}
  *
  */
-function commaSep1<K extends string>(rule: Rule<K>) {
+function commaSep1(rule: Rule) {
     return seq(rule, repeat(seq(',', rule)));
 }
 
@@ -639,10 +638,10 @@ function caseInsensitive(words: string) {
         .join('|');
 }
 
-function reservedWord<K extends string>(word: string, wordAlias: string | Rule<K>) {
-    return alias<K>(reserved<K>(caseInsensitive(word)), wordAlias);
+function reservedWord(word: string, wordAlias: string) {
+    return alias(reserved(caseInsensitive(word)), wordAlias);
 }
 
-function reserved<K extends string>(regexString: string) {
-    return token<K>(prec(2, new RegExp(regexString)));
+function reserved(regexString: string) {
+    return token(prec(2, new RegExp(regexString)));
 }
