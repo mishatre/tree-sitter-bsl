@@ -1,0 +1,254 @@
+
+============================================
+Assignments
+============================================
+
+А = 0;
+
+---
+
+(source_file
+    (expression_statement
+        (assignment_expression
+        (identifier)
+        (number)))
+)
+
+==================
+If statements
+==================
+
+If x Then
+    log(y);
+EndIf;
+
+If (a.b) Then
+    log(c);
+EndIf;
+
+If x = 0 Then
+    log(y);
+EndIf;
+
+Если А = 0 И НЕ Число <= 0 Тогда
+
+КонецЕсли;
+
+---
+
+(source_file
+    (if_statement
+        condition: (identifier)
+        consequence: (expression_statement
+            (call_expression
+                function: (identifier)
+                arguments: (arguments
+                    (identifier))))
+    )
+    (if_statement
+        condition: (member_expression
+                object: (identifier)
+                property: (identifier))
+        consequence: (expression_statement
+            (call_expression
+                function: (identifier)
+                arguments: (arguments
+                    (identifier))))
+    )
+    (if_statement
+        condition: (assignment_expression
+          left: (identifier)
+          right: (number))
+        consequence: (expression_statement
+            (call_expression
+                function: (identifier)
+                arguments: (arguments
+                    (identifier))))
+    )
+    (if_statement
+        condition: (assignment_expression
+            left: (identifier)
+            right: (binary_expression
+                left: (number)
+                right: (binary_expression
+                    left: (unary_expression
+                        argument: (identifier))
+                    right: (number))))
+    )
+)
+
+============================================
+If-else statements
+============================================
+
+If x Then
+ElsIf a Then
+EndIf;
+
+If a Then
+Else
+EndIf;
+
+----
+
+(source_file
+    (if_statement
+        condition: (identifier)
+        alternative: (elsif_clause
+            condition: (identifier)))
+    (if_statement
+        condition: (identifier)
+        alternative: (else_clause)))
+    
+============================================
+For statements
+============================================
+
+Для Индекс = 0 По Количество Цикл
+КонецЦикла;
+
+Для Каждого КлючИЗначение Из Структура Цикл
+КонецЦикла;
+
+----
+
+(source_file
+    (for_statement
+        (assignment_expression
+            (identifier)
+            (number))
+        (identifier)
+    )
+    (for_each_statement
+        (identifier)
+        (identifier)
+    )
+)
+
+============================================
+While statements
+============================================
+
+Пока Условие Цикл
+КонецЦикла;
+
+----
+
+(source_file
+    (while_statement
+        (identifier))
+)
+
+============================================
+Try statements
+============================================
+
+Попытка
+Исключение
+КонецПопытки;
+
+----
+
+(source_file
+    (try_statement)
+)
+
+============================================
+Return statements
+============================================
+
+Возврат;
+Возврат 5;
+Возврат А;
+
+---
+
+(source_file
+  (return_statement)
+  (return_statement
+    (number))
+  (return_statement
+    (identifier)))
+
+============================================
+Variable declarations
+============================================
+
+Перем А Экспорт;
+Перем А, Б;
+Перем А Экспорт, Б;
+Перем А, Б Экспорт;
+Перем А Экспорт, Б Экспорт;
+
+---
+
+(source_file
+    (variable_declaration
+        (variable_declarator
+            (identifier)
+            (modifier)))
+    (variable_declaration
+        (variable_declarator
+            (identifier))
+        (variable_declarator
+            (identifier)))
+    (variable_declaration
+        (variable_declarator
+            (identifier)
+            (modifier))
+        (variable_declarator
+            (identifier)))
+    (variable_declaration
+        (variable_declarator
+            (identifier))
+        (variable_declarator
+            (identifier)
+            (modifier)))
+    (variable_declaration
+        (variable_declarator
+            (identifier)
+            (modifier))
+        (variable_declarator
+            (identifier)
+            (modifier)))
+)
+
+============================================
+Raise statements
+============================================
+
+ВызватьИсключение;
+ВызватьИсключение "Текст исключения";
+
+---
+
+(source_file
+    (raise_statement)
+    (raise_statement
+        (string (string_fragment)))
+)
+
+============================================
+Rest statements
+============================================
+
+Продолжить;
+Прервать;
+Новый УникальныйИдентификатор();
+Новый("ТаблицаЗначений");
+
+---
+
+(source_file
+    (continue_statement)
+    (break_statement)
+    (expression_statement
+        (new_expression
+            (identifier)
+            (arguments)))
+    (expression_statement
+        (new_expression
+            (arguments
+                (string
+                (string_fragment)))))
+)

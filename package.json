@@ -1,0 +1,36 @@
+{
+    "name": "tree-sitter-bsl",
+    "version": "0.1.0",
+    "description": "",
+    "main": "bindings/node",
+    "scripts": {
+        "generate": "esbuild grammar.ts --format=iife --global-name=parser --footer:js='module.exports = parser.default' --outfile=grammar.js && tree-sitter generate",
+        "test": "pnpm run generate && tree-sitter test",
+        "highlight:build": "pnpm run generate && /opt/homebrew/bin/tree-sitter highlight -H ./test/highlight/source.bsl > ./file.html",
+        "highlight": "/opt/homebrew/bin/tree-sitter highlight -H ./test/highlight/source.bsl > ./file.html",
+        "full": "pnpm run generate && tree-sitter parse ./test/highlight/source.bsl > test.parse.txt && tree-sitter highlight -H ./test/highlight/source.bsl > file.html"
+    },
+    "author": "Mikhail Tregub <mishatre123@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "esbuild": "^0.20.0",
+        "nan": "^2.18.0",
+        "save": "^2.9.0"
+    },
+    "devDependencies": {
+        "tree-sitter-cli": "^0.20.8"
+    },
+    "tree-sitter": [
+        {
+            "scope": "source.bsl",
+            "file-types": [
+                "bsl",
+                "os"
+            ],
+            "injection-regex": "^(bsl)$",
+            "highlights": [
+                "queries/highlights.scm"
+            ]
+        }
+    ]
+}

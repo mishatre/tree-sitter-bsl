@@ -1,0 +1,153 @@
+============================================
+Numbers
+============================================
+
+04000;
+400;
+00000123123.123123;
+0.123123;
+01;
+00000123;
+
+---
+
+(source_file
+    (expression_statement (number))
+    (expression_statement (number))
+    (expression_statement (number))
+    (expression_statement (number))
+    (expression_statement (number))
+    (expression_statement (number))
+)
+
+==================
+Simple strings
+==================
+
+"";
+"simple text";
+
+---
+
+(source_file
+    (expression_statement (string))
+    (expression_statement (string (string_fragment)))
+)
+
+==================
+String with comment-like content
+==================
+
+"//simple "" //text//";
+
+---
+
+(source_file
+    (expression_statement (string (string_fragment) (escape_sequence) (string_fragment)))
+)
+
+==================
+Quote escaping
+==================
+
+"";
+"""";
+"a""b";
+"a""b""c";
+"""""";
+
+---
+
+(source_file
+    (expression_statement (string))
+    (expression_statement (string (escape_sequence)))
+    (expression_statement (string (string_fragment) (escape_sequence) (string_fragment)))
+    (expression_statement (string (string_fragment) (escape_sequence) (string_fragment) (escape_sequence) (string_fragment)))
+    (expression_statement (string (escape_sequence) (escape_sequence)))
+)
+
+==================
+Multiline string
+==================
+
+"
+|";
+
+"a
+|";
+
+"a
+|b";
+
+"a
+|b
+|";
+
+"a
+// |b
+|";
+
+"a
+// comment
+|b
+// comment
+|";
+
+---
+
+(source_file
+    (expression_statement (string (multiline_char)))
+    (expression_statement (string (string_fragment) (multiline_char)))
+    (expression_statement (string (string_fragment) (multiline_char) (string_fragment)))
+    (expression_statement (string (string_fragment) (multiline_char) (string_fragment) (multiline_char)))
+    (expression_statement (string (string_fragment) (comment) (multiline_char)))
+    (expression_statement (string (string_fragment) (comment) (multiline_char) (string_fragment) (comment) (multiline_char)))
+)
+
+==================
+Multiline string with comment-like content
+==================
+
+"first row
+|//simple "" //text//
+|";
+
+---
+
+(source_file
+    (expression_statement (string 
+        (string_fragment) 
+        (multiline_char) (string_fragment) (escape_sequence) (string_fragment) 
+        (multiline_char))))
+
+==================
+Multiline string quote escaping
+==================
+
+"""
+|";
+
+"
+|""";
+
+"a
+|""b
+|c""
+|";
+
+"
+|a""b""c";
+
+---
+
+(source_file
+    (expression_statement (string (escape_sequence) (multiline_char)))
+    (expression_statement (string (multiline_char) (escape_sequence)))
+    (expression_statement (string 
+        (string_fragment) 
+        (multiline_char) (escape_sequence) (string_fragment)
+        (multiline_char) (string_fragment) (escape_sequence)
+        (multiline_char)))
+    (expression_statement (string 
+        (multiline_char) (string_fragment) (escape_sequence) (string_fragment) (escape_sequence) (string_fragment)))
+)

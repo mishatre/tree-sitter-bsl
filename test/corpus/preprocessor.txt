@@ -1,0 +1,186 @@
+==================
+Empty If
+==================
+
+#Если Клиент Тогда
+
+#КонецЕсли
+
+---
+
+(source_file
+  (preproc_if
+    (preproc_identifier)))
+
+==================
+With alternative
+==================
+
+#Если Клиент Тогда
+
+#Иначе
+
+#КонецЕсли
+
+---
+
+(source_file
+  (preproc_if
+    (preproc_identifier)
+    (preproc_else)))
+
+==================
+Nested directives
+==================
+
+#Если Клиент Тогда
+
+#Если ТолстыйКлиентОбычноеПриложение Тогда
+
+#КонецЕсли
+
+#КонецЕсли
+
+---
+
+(source_file
+  (preproc_if
+    (preproc_identifier)
+      (preproc_if
+        (preproc_identifier))))
+
+==================
+Complex if
+==================
+
+#Если Не Клиент И ТолстыйКлиентОбычноеПриложение Или ТолстыйКлиентУправляемоеПриложение Тогда
+
+#КонецЕсли
+
+---
+
+(source_file
+    (preproc_if
+        (binary_expression
+            (binary_expression
+                (unary_expression
+                    (preproc_identifier))
+                (preproc_identifier))
+            (preproc_identifier)))
+)
+
+==================
+Complex if else
+==================
+
+#Если Не Клиент И ТолстыйКлиентОбычноеПриложение Или ТолстыйКлиентУправляемоеПриложение Тогда
+
+#ИначеЕсли Не Клиент И ТолстыйКлиентОбычноеПриложение Или ТолстыйКлиентУправляемоеПриложение Тогда
+
+#КонецЕсли
+
+---
+
+(source_file
+  (preproc_if
+    (binary_expression
+      (binary_expression
+        (unary_expression
+          (preproc_identifier))
+        (preproc_identifier))
+      (preproc_identifier))
+    (preproc_elif
+      (binary_expression
+        (binary_expression
+          (unary_expression
+            (preproc_identifier))
+          (preproc_identifier))
+        (preproc_identifier)))))
+
+==================
+Empty region
+==================
+
+#Область ИмяРегиона
+
+#КонецОбласти
+
+---
+
+(source_file
+  (preproc_region
+    (identifier)))
+
+==================
+Multilang region definition
+==================
+
+#Region ИмяРегиона
+
+#КонецОбласти
+
+---
+
+(source_file
+  (preproc_region
+    (identifier)))
+  
+==================
+Nested regions
+==================
+
+#Область ИмяРегиона
+
+#Область ИмяРегиона1
+
+#КонецОбласти
+
+#КонецОбласти
+
+---
+
+(source_file
+  (preproc_region
+    (identifier)
+    (preproc_region
+      (identifier))))
+
+==================
+Region inside if
+==================
+
+#Если Клиент Тогда
+
+#Область ИмяРегиона
+
+#КонецОбласти
+
+#КонецЕсли
+
+---
+
+(source_file
+  (preproc_if
+    (preproc_identifier)
+    (preproc_region
+      (identifier))))
+
+==================
+If inside region
+==================
+
+#Область ИмяРегиона
+
+#Если Клиент Тогда
+
+#КонецЕсли
+
+#КонецОбласти
+
+---
+
+(source_file
+  (preproc_region
+    (identifier)
+    (preproc_if
+      (preproc_identifier))))

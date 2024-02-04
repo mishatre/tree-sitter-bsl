@@ -1,0 +1,131 @@
+==================
+Empty procedure
+==================
+
+Procedure Name() 
+
+EndProcedure
+
+---
+
+(source_file
+    (function_declaration
+        (identifier)
+        (parameter_list)))
+
+==================
+Empty function
+==================
+
+Function Name() 
+
+EndFunction
+
+---
+
+(source_file
+    (function_declaration
+        (identifier)
+        (parameter_list)))
+
+==================
+Function with export modifier
+==================
+
+Function Name() Export
+
+EndFunction
+
+---
+
+(source_file
+    (function_declaration
+        (identifier)
+        (parameter_list)
+        (modifier)))
+
+==================
+Function with async and export modifier
+==================
+
+Async Function Name() Export
+
+EndFunction
+
+---
+
+(source_file
+    (function_declaration
+        (modifier)
+        (identifier)
+        (parameter_list)
+        (modifier)))
+
+==================
+Function with simple parameters
+==================
+
+Function Name(Param1, Param2)
+
+EndFunction
+
+---
+
+(source_file
+    (function_declaration
+        (identifier)
+        (parameter_list
+            (parameter_declaration
+                (identifier))
+            (parameter_declaration
+                (identifier))
+        )))
+
+==================
+Function with complex parameters
+==================
+
+Function Name(Val Param1, Val Param2 = Undefined, Field = "",
+    DataPath = 1, Reject = False) Export
+EndFunction
+
+---
+
+(source_file
+    (function_declaration
+        (identifier)
+        (parameter_list
+            (parameter_declaration
+                (modifier)
+                (identifier))
+            (parameter_declaration
+                (modifier)
+                (identifier)
+                (undefined))
+            (parameter_declaration
+                (identifier)
+                (string))
+            (parameter_declaration
+                (identifier)
+                (number))
+            (parameter_declaration
+                (identifier)
+                (false)))
+        (modifier)))
+
+==================
+Procedure with compilation directive
+==================
+
+&AtClient
+Procedure Name() 
+
+EndProcedure
+
+---
+
+(source_file
+    (function_declaration
+        (directive)
+        (identifier)
+        (parameter_list)))

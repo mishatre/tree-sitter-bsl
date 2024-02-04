@@ -1,0 +1,212 @@
+
+============================================
+Booleans
+============================================
+
+null;
+undefined;
+true;
+false;
+
+---
+
+(source_file
+  (expression_statement
+    (null))
+  (expression_statement
+    (undefined))
+  (expression_statement
+    (true))
+  (expression_statement
+    (false)))
+
+============================================
+Math operators
+============================================
+
+i + j * 3 - j % 5;
+
+---
+
+(source_file
+    (expression_statement
+        (binary_expression
+            (binary_expression
+                (identifier)
+                (binary_expression
+                    (identifier)
+                    (number)))
+            (binary_expression
+                (identifier)
+                (number))))
+)
+
+============================================
+Boolean operators
+============================================
+
+А И Б;
+
+А ИЛИ Б;
+
+Не А И Не Б ИЛИ Не В И Не Г;
+
+---
+
+(source_file
+    (expression_statement
+        (binary_expression
+            (identifier)
+            (identifier)))
+    (expression_statement
+        (binary_expression
+            (identifier)
+            (identifier)))
+    (expression_statement
+        (binary_expression
+            (binary_expression
+                (unary_expression
+                    (identifier))
+                (unary_expression
+                    (identifier)))
+            (binary_expression
+                (unary_expression
+                    (identifier))
+                (unary_expression
+                    (identifier)))))
+)
+
+============================================
+Relational operators
+============================================
+
+А < Б;
+А <= Б;
+А = Б;
+А <> Б;
+А >= Б;
+А > Б;
+
+---
+
+(source_file
+    (expression_statement
+        (binary_expression
+            (identifier)
+            (identifier)))
+    (expression_statement
+        (binary_expression
+            (identifier)
+            (identifier)))
+    (expression_statement
+        (assignment_expression
+            (identifier)
+            (identifier)))
+    (expression_statement
+        (binary_expression
+            (identifier)
+            (identifier)))
+    (expression_statement
+        (binary_expression
+            (identifier)
+            (identifier)))
+    (expression_statement
+        (binary_expression
+            (identifier)
+            (identifier)))
+)
+
+==============================================
+Assignments
+==============================================
+
+А = 0;
+А.Б = 0;
+А["Б"] = 0;
+
+---
+
+(source_file
+    (expression_statement
+        (assignment_expression
+            (identifier)
+            (number)))
+    (expression_statement
+        (assignment_expression
+            (member_expression
+                (identifier)
+                (identifier))
+            (number)))
+    (expression_statement
+        (assignment_expression
+            (subscript_expression
+                (identifier)
+                (string
+                    (string_fragment)))
+            (number)))
+)
+
+==============================================
+Ternaries
+==============================================
+
+?(Условие, Последствие, Альтернатива);
+
+---
+
+(source_file
+    (expression_statement
+        (ternary_expression
+            (identifier)
+            (identifier)
+            (identifier)))
+)
+
+==============================================
+Operator precedence
+==============================================
+
+А <= Б И В >= Г;
+?(А.Б = В, Г, Д);
+А И Б(В) И Д;
+А И Новый Б(В) И Д;
+
+---
+
+(source_file
+    (expression_statement
+        (binary_expression
+            (binary_expression
+                (identifier)
+                (identifier))
+            (binary_expression
+                (identifier)
+                (identifier))))
+    (expression_statement
+        (ternary_expression
+            (assignment_expression
+                (member_expression
+                    (identifier)
+                    (identifier))
+                (identifier))
+            (identifier)
+            (identifier)))
+    (expression_statement
+        (binary_expression
+            (binary_expression
+                (identifier)
+                (call_expression
+                    (identifier)
+                    (arguments
+                        (identifier))))
+            (identifier)))
+    (expression_statement
+        (binary_expression
+            (binary_expression
+                (identifier)
+                (new_expression
+                    (identifier)
+                    (arguments
+                        (identifier))))
+            (identifier)))
+)
